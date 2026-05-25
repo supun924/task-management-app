@@ -1,0 +1,32 @@
+/* GLOBAL STYLES */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+}
+
+/* =========================
+   ANGULAR MATERIAL SNACKBAR
+   ========================= */
+
+/* SUCCESS SNACKBAR */
+.mat-mdc-snack-bar-container.snack-success .mdc-snackbar__surface {
+  background-color: #16a34a !important;
+  color: white !important;
+}
+
+/* ERROR SNACKBAR */
+.mat-mdc-snack-bar-container.snack-error .mdc-snackbar__surface {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+/* CENTER CONTENT INSIDE SNACKBAR */
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}

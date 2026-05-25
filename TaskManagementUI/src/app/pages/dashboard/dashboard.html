@@ -1,0 +1,210 @@
+<div class="min-h-screen bg-slate-100 flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b w-full">
+
+        <div class="px-8 py-5 flex justify-between items-center">
+
+            <!-- TITLE -->
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">
+                    Task Dashboard
+                </h1>
+                <p class="text-gray-500 mt-1">
+                    Manage your daily work efficiently
+                </p>
+            </div>
+
+            <!-- LOGOUT -->
+            <button (click)="logout()"
+                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gray-200 text-gray-600 hover:bg-gray-800 hover:text-white transition"
+                title="Logout">
+
+                <span class="material-icons">logout</span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+    <main class="flex-1 p-8 flex flex-col w-full">
+
+        <!-- STATS -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8 w-full">
+
+            <div class="bg-white rounded-2xl p-6 shadow">
+                <p class="text-gray-500">Total Tasks</p>
+                <h2 class="text-4xl font-bold mt-2">
+                    {{ tasks.length }}
+                </h2>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow">
+                <p class="text-gray-500">Completed</p>
+                <h2 class="text-4xl font-bold text-green-600 mt-2">
+                    {{ tasks.filter(x => x.isCompleted).length }}
+                </h2>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow">
+                <p class="text-gray-500">Pending</p>
+                <h2 class="text-4xl font-bold text-orange-500 mt-2">
+                    {{ tasks.filter(x => !x.isCompleted).length }}
+                </h2>
+            </div>
+
+        </div>
+
+        <!-- BODY -->
+        <div class="grid lg:grid-cols-[2fr_1fr] gap-8 flex-1 w-full">
+
+            <!-- TASK LIST -->
+            <section class="bg-white rounded-2xl p-6 shadow flex flex-col h-[60vh] w-full">
+
+                <!-- SEARCH + FILTER -->
+                <div class="flex gap-3 mb-6 shrink-0">
+
+                    <div class="flex items-center border rounded-xl px-3 flex-1">
+                        <span class="material-icons text-gray-400 mr-2">search</span>
+                        <input [(ngModel)]="search" placeholder="Search task title..." class="w-full p-2 outline-none" />
+                    </div>
+
+                    <div class="flex items-center border rounded-xl px-3">
+                        <span class="material-icons text-gray-400 mr-2">filter_list</span>
+                        <select [(ngModel)]="filter" class="p-2 outline-none bg-transparent">
+
+                            <option value="all">All</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- SCROLLABLE LIST -->
+                <div class="overflow-y-auto flex-1 pr-2">
+
+                    <div *ngFor="let t of filteredTasks()"
+                        class="border rounded-2xl p-5 mb-4 hover:shadow-lg transition">
+
+                        <div class="flex justify-between">
+
+                            <!-- TASK INFO -->
+                            <div>
+
+                                <div class="flex gap-3 items-center">
+
+                                    <h3 class="font-semibold text-lg">
+                                        {{ t.title }}
+                                    </h3>
+
+                                    <span class="px-3 py-1 rounded-full text-sm" [ngClass]="{
+                                            'bg-green-100 text-green-700': t.isCompleted,
+                                            'bg-orange-100 text-orange-700': !t.isCompleted
+                                        }">
+
+                                        {{ t.isCompleted ? 'Completed' : 'Pending' }}
+
+                                    </span>
+
+                                </div>
+
+                                <p class="text-gray-500 mt-3">
+                                    {{ t.description }}
+                                </p>
+
+                            </div>
+
+                            <!-- ACTIONS -->
+                            <div class="flex gap-2">
+
+                                <button (click)="toggle(t)"
+                                    class="w-10 h-10 rounded-xl bg-gray-200 text-gray-600 hover:bg-green-600 hover:text-white transition"
+                                    title="Complete">
+
+                                    <span class="material-icons">check_circle</span>
+
+                                </button>
+
+                                <button (click)="edit(t)"
+                                    class="w-10 h-10 rounded-xl bg-gray-200 text-gray-600 hover:bg-blue-600 hover:text-white transition"
+                                    title="Edit">
+
+                                    <span class="material-icons">edit</span>
+
+                                </button>
+
+                                <button (click)="delete(t.id)"
+                                    class="w-10 h-10 rounded-xl bg-gray-200 text-gray-600 hover:bg-red-600 hover:text-white transition"
+                                    title="Delete">
+
+                                    <span class="material-icons">delete</span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TASK FORM -->
+            <section class="bg-white rounded-2xl p-6 shadow flex flex-col h-[60vh] w-full">
+
+                <h2 class="text-2xl font-bold mb-6 shrink-0">
+                    {{ selected ? 'Edit Task' : 'Create Task' }}
+                </h2>
+
+                <div class="flex-1 flex flex-col justify-between">
+
+                    <!-- INPUTS -->
+                    <div>
+
+                        <!-- TITLE -->
+                        <div class="flex items-center border rounded-xl px-3 mb-5">
+                            <input [(ngModel)]="title" placeholder="Task title" class="w-full p-3 outline-none" />
+                        </div>
+
+                        <!-- DESCRIPTION -->
+                        <div class="flex items-start border rounded-xl px-3 mb-6">
+                            <textarea rows="4" [(ngModel)]="description" placeholder="Description"
+                                class="w-full p-3 outline-none"></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="flex gap-3">
+
+                        <!-- SAVE / UPDATE -->
+                        <button (click)="save()"
+                            class="flex-1 bg-sky-600 hover:bg-sky-700 text-white p-4 rounded-xl transition">
+
+                            {{ selected ? 'Update Task' : 'Create Task' }}
+
+                        </button>
+
+                        <!-- CLEAR -->
+                        <button (click)="reset()" class="flex-1 border p-4 rounded-xl hover:bg-gray-100 transition">
+
+                            Clear
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
