@@ -33,6 +33,10 @@ ng serve
 - Create Database 'TaskDb'
 - Execute 'TaskDb.sql' file
 
+### Login
+- username 'admin'
+- password '1234'
+
 Frontend:
 http://localhost:4200
 
