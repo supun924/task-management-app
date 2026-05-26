@@ -1,37 +1,25 @@
 # task-management-app
 
 ## Tech Stack
+- Backend: .NET Web API
+- Frontend: Angular
+- Database: SQL Server
 
-Backend
-- .NET Web API
-- SQL Server
-- Clean Architecture
-- Basic Authentication
+## Features
+- Create, update, delete tasks
+- Mark tasks as completed
+- Authentication (basic username/password)
+- Sorting and filtering
 
-Frontend
-- Angular 21
-- Tailwind CSS 3
-
-## Setup
-
-### Backend
-
-```bash
-dotnet restore
-dotnet ef database update
+## How to run backend
 dotnet run
-```
 
-### Frontend
-
-```bash
+## How to run frontend
 npm install
 ng serve
-```
 
-### Database
-- Create Database 'TaskDb'
-- Execute 'TaskDb.sql' file
+## Database setup
+Run script.sql in SQL Server
 
 ### Login
 - username 'admin'
