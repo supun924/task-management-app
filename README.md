@@ -29,6 +29,10 @@ npm install
 ng serve
 ```
 
+### Database
+- Create Database 'TaskDb'
+- Execute 'TaskDb.sql' file
+
 Frontend:
 http://localhost:4200
 
