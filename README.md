@@ -19,7 +19,7 @@ npm install
 ng serve
 
 ## Database setup
-Run script.sql in SQL Server
+Run TaskDb.sql in SQL Server
 
 ### Login
 - username 'admin'
